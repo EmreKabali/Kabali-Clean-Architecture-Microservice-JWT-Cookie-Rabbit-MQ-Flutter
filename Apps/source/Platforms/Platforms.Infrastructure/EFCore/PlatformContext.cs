@@ -7,22 +7,53 @@ using Platforms.Infrastructure.Utils;
 
 namespace Platforms.Infrastructure.EFCore
 {
-	public class PlatformContext:DbContext
-	{
-        private IConfigurationBuilder configuration;
+    public class PlatformContext : DbContext
+    {
+        private IConfiguration configuration;
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             //For Migration
-            optionsBuilder.UseSqlServer(@"DatabaseConnectingString");
+            //optionsBuilder.UseSqlServer(@"DatabaseConnectingString");
 
-            //TODO Check appsettingsjson file implementation inn .Net 7.0
-            //configuration = configuration.SetBasePath()
+            configuration = new ConfigurationBuilder()
+              .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
+               .AddJsonFile("appsettings.json")
+               .Build();
+            bool systemIsLive = Convert.ToBoolean(configuration["AppSettings:SystemIsLive"]);
+
+#if DEBUG
+            if (systemIsLive)
+            {
+                optionsBuilder.UseSqlServer(configuration.GetConnectionString("TEST"));
+            }
+            else
+            {
+                optionsBuilder.UseSqlServer(configuration.GetConnectionString("TEST"));
+            }
+#else
+  if (systemIsLive)
+            {
+                optionsBuilder.UseSqlServer(configuration.GetConnectionString("PROD"));
+            }
+            else
+            {
+                optionsBuilder.UseSqlServer(configuration.GetConnectionString("TEST"));
+            }
+#endif
+
+
 
         }
         public override int SaveChanges()
         {
             BeforeSaveChanges();
             return base.SaveChanges();
+        }
+
+        public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
+        {
+            BeforeSaveChanges();
+            return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
         }
         private void BeforeSaveChanges()
         {
@@ -55,7 +86,7 @@ namespace Platforms.Infrastructure.EFCore
                         case EntityState.Deleted:
                             auditEntry.AuditType = AuditType.Delete;
                             auditEntry.OldValues[propertyName] = property.OriginalValue;
-                            auditEntry.UserId= entry.Property("LastModifiedBy").CurrentValue != null ? entry.Property("LastModifiedBy").CurrentValue.ToString() : "Null";
+                            auditEntry.UserId = entry.Property("LastModifiedBy").CurrentValue != null ? entry.Property("LastModifiedBy").CurrentValue.ToString() : "Null";
                             break;
 
                         case EntityState.Modified:
