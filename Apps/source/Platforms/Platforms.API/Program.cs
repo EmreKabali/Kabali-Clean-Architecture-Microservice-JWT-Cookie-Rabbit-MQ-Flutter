@@ -1,3 +1,5 @@
+using Platforms.Infrastructure.Utils;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -7,6 +9,11 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+#region Dependency Injections
+//Repositories
+RepositoryExtension.ConfigureInjections(builder.Services);
+
+#endregion
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

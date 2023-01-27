@@ -1,7 +1,9 @@
 ﻿using System;
+using Platforms.Domain.Base;
+
 namespace Platforms.Domain.Entities
 {
-	public class Audit
+	public class Audit:IEntity
 	{
         public int Id { get; set; }
         public string UserId { get; set; }

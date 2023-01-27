@@ -21,4 +21,9 @@
   <ItemGroup>
     <None Remove="Newtonsoft.Json" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Platforms.Infrastructure\Platforms.Infrastructure.csproj">
+      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
+    </ProjectReference>
+  </ItemGroup>
 </Project>

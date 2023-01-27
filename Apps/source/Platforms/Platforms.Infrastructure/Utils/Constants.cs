@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Platforms.Infrastructure.Utils
 {
-    public class Constants
+    public static class Constants
     {
     }
 }
