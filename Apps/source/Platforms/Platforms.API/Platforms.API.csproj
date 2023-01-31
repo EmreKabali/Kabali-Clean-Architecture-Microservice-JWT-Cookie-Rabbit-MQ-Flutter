@@ -20,10 +20,16 @@
 
   <ItemGroup>
     <None Remove="Newtonsoft.Json" />
+    <None Remove="Utils\" />
+    <None Remove="Controllers\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Platforms.Infrastructure\Platforms.Infrastructure.csproj">
       <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Utils\" />
+    <Folder Include="Controllers\" />
   </ItemGroup>
 </Project>

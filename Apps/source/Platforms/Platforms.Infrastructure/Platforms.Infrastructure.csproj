@@ -9,6 +9,7 @@
   <ItemGroup>
     <Folder Include="EFCore\" />
     <Folder Include="Services\" />
+    <Folder Include="Utils\Constant\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -39,5 +40,6 @@
     <None Remove="Newtonsoft.Json" />
     <None Remove="Microsoft.Extensions.Configuration" />
     <None Remove="Microsoft.Extensions.Configuration.Abstractions" />
+    <None Remove="Utils\Constant\" />
   </ItemGroup>
 </Project>
